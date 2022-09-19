@@ -1,3 +1,0 @@
-/home/devon/repos/computational-geometry/convex_hull/build/CMakeFiles/test.dir
-/home/devon/repos/computational-geometry/convex_hull/build/CMakeFiles/edit_cache.dir
-/home/devon/repos/computational-geometry/convex_hull/build/CMakeFiles/rebuild_cache.dir

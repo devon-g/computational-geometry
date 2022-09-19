@@ -5,9 +5,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(convex_hull)
 
+# gnuplot-iostream header
+include_directories(/usr/local/include/)
+
 find_package(CGAL)
 find_package(Boost)
-add_executable(${PROJECT_NAME} main.cpp)
+
+add_executable(${PROJECT_NAME} convex_hull.cpp)
 target_link_libraries(${PROJECT_NAME}
     CGAL::CGAL
     boost_iostreams

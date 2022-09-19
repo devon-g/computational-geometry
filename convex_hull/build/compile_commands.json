@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/devon/repos/computational-geometry/convex_hull/build",
-  "command": "/usr/bin/c++ -DCGAL_USE_GMPXX=1  -O3 -DNDEBUG -frounding-math -o CMakeFiles/test.dir/test.cpp.o -c /home/devon/repos/computational-geometry/convex_hull/test.cpp",
-  "file": "/home/devon/repos/computational-geometry/convex_hull/test.cpp"
-}
-]
