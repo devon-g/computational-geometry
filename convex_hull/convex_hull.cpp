@@ -1,4 +1,7 @@
 #include <CGAL/Simple_cartesian.h>
+#include <bits/chrono.h>
+#include <boost/function.hpp>
+#include <chrono>
 #include <gnuplot-iostream.h>
 #include <random>
 
@@ -37,7 +40,7 @@ std::vector<Point_2> SlowConvexHull(std::vector<Point_2> P) {
       }
     }
   }
-  
+
   // List of vertices that make up the convex hull of the set of points P
   std::vector<Point_2> L;
 
@@ -150,7 +153,8 @@ std::vector<Point_2> MediumConvexHull(std::vector<Point_2> P) {
 int main() {
   // Seed random
   std::random_device rd;
-  std::mt19937 gen(rd());
+  // std::mt19937 gen(rd());
+  std::mt19937 gen(0);
 
   // Instantiate gnuplot stream
   Gnuplot gp("gnuplot");
@@ -163,38 +167,63 @@ int main() {
   int n_iterations = 10;
 
   // Set point generation settings
-  int num_points = 10;
-  int x_max = 50;
-  int x_min = -50;
-  int y_max = 50;
-  int y_min = -50;
+  int slow_convex_hull_n_points = 500;
+  int convex_hull_n_points = 2000000;
+  int x_max = 500;
+  int x_min = -500;
+  int y_max = 500;
+  int y_min = -500;
 
   // Give the number generator a range
   std::uniform_int_distribution<> x_distr(x_min, x_max);
   std::uniform_int_distribution<> y_distr(y_min, y_max);
 
+  /* // For each convex hull function perform n iterations and time it
+  // Start timer
+  auto start = std::chrono::high_resolution_clock::now();
+
   // Apply convex hull algorithm to different sets of random points
   for (int i = 0; i < n_iterations; i++) {
     // Generate random points
     std::vector<Point_2> P;
-    for (int i = 0; i < num_points; i++)
+    for (int i = 0; i < convex_hull_n_points; i++)
       P.push_back(Point_2(x_distr(gen), y_distr(gen)));
 
     // Compute convex hull of points P
-    // std::vector<Point_2> L = ConvexHull(P);
-    std::vector<Point_2> L = MediumConvexHull(P);
-    // std::vector<Point_2> L = SlowConvexHull(P);
-
-    // Duplicate first point in L for gnuplot
-    L.push_back(L[0]);
-
-    // Plot P and L
-    gp << "plot '-' with lines title 'CH' linewidth 5 linecolor rgb 'purple', "
-          "'-' title 'P' pointtype 7 pointsize 3\n";
-    gp.send1d(L);
-    gp.send1d(P);
-    gp << "pause 1\n";
+    std::vector<Point_2> L = ConvexHull(P);
   }
+  // Stop timer
+  auto stop = std::chrono::high_resolution_clock::now();
+
+  // Compute and output duration
+  auto duration =
+      std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+  std::cout << "N: " << convex_hull_n_points << ", Average runtime: " << duration.count() / n_iterations << "ms"
+            << std::endl; */
+
+
+  // Start timer
+  auto start = std::chrono::high_resolution_clock::now();
+
+  // Apply convex hull algorithm to different sets of random points
+  for (int i = 0; i < n_iterations; i++) {
+    // Generate random points
+    std::vector<Point_2> P;
+    for (int i = 0; i < slow_convex_hull_n_points; i++)
+      P.push_back(Point_2(x_distr(gen), y_distr(gen)));
+
+    // Compute convex hull of points P
+    std::vector<Point_2> L = SlowConvexHull(P);
+  }
+  // Stop timer
+  auto stop = std::chrono::high_resolution_clock::now();
+
+  // Compute and output duration
+  auto duration =
+      std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+  std::cout << "N: " << slow_convex_hull_n_points << ", Average runtime: " << duration.count() / n_iterations << "ms"
+            << std::endl;
+
 
   gp << "exit\n";
 
