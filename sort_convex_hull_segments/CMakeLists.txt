@@ -9,7 +9,6 @@ project(sort_convex_hull_segments)
 include_directories(/usr/local/include/)
 
 find_package(CGAL)
-find_package(Boost)
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME}
