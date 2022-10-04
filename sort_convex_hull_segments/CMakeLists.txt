@@ -14,6 +14,4 @@ find_package(Boost)
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME}
     CGAL::CGAL
-    boost_iostreams
-    boost_system
-    boost_filesystem)
+    )
