@@ -155,9 +155,6 @@ int main() {
   // std::mt19937 gen(rd());
   std::mt19937 gen(rd());
 
-  // Convex hull repetitions
-  int n_iterations = 10;
-
   // Set point generation settings
   int slow_convex_hull_n_points = 4000;
   int convex_hull_n_points = 2000000;
@@ -173,11 +170,11 @@ int main() {
   // Apply convex hull algorithm to different sets of random points
   int slow_convex_hull_total_count = 0;
   int convex_hull_total_count = 0;
-  for (int c = 1; c <= 3; c++) {
+  for (int c = 0; c <= 3; c++) {
     // CONVEX HULL
     // Generate random points
     std::vector<Point_2> P_fast;
-    for (int i = 0; i < c * convex_hull_n_points; i++)
+    for (int i = 0; i < std::pow(2, c) * convex_hull_n_points; i++)
       P_fast.push_back(Point_2(x_distr(gen), y_distr(gen)));
 
     // Start timer
@@ -194,7 +191,7 @@ int main() {
     // SLOW CONVEX HULL
     // Generate random points
     std::vector<Point_2> P_slow;
-    for (int i = 0; i < c * slow_convex_hull_n_points; i++)
+    for (int i = 0; i < std::pow(2, c) * slow_convex_hull_n_points; i++)
       P_slow.push_back(Point_2(x_distr(gen), y_distr(gen)));
     // Start timer
     start = std::chrono::high_resolution_clock::now();
@@ -206,9 +203,9 @@ int main() {
         std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     slow_convex_hull_total_count += duration.count();
     // Output duration
-    std::cout << "Convex Hull\nN: " << c * convex_hull_n_points
+    std::cout << "Convex Hull\nN: " << std::pow(2, c) * convex_hull_n_points
               << ", Runtime: " << convex_hull_total_count << "ms" << std::endl;
-    std::cout << "Slow Convex Hull\nN: " << c * slow_convex_hull_n_points
+    std::cout << "Slow Convex Hull\nN: " << pow(2, c) * slow_convex_hull_n_points
               << ", Runtime: " << slow_convex_hull_total_count << "ms"
               << std::endl;
   }
