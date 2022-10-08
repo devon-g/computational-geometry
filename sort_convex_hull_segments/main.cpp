@@ -36,10 +36,10 @@ vector<Segment> SortConvexHullSegments(const vector<Segment> &E) {
     // store angle/segment in A
     A.push_back(pair<double, Segment>(angle, s));
     // keep track of vertex with highest y value
-    if (s.point(0).y() > uppermost_vertex.y())
-      uppermost_vertex = s.point(0);
-    else if (s.point(1).y() > uppermost_vertex.y())
-      uppermost_vertex = s.point(1);
+    if (s.source().y() > uppermost_vertex.y())
+      uppermost_vertex = s.source();
+    else if (s.target().y() > uppermost_vertex.y())
+      uppermost_vertex = s.target();
   }
 
   // Sort A descending
@@ -47,10 +47,10 @@ vector<Segment> SortConvexHullSegments(const vector<Segment> &E) {
 
   // In A start at angle associated with uppermost vertex
   for (auto a : A) {
+    // If we haven't found segment with uppermost point yet don't do anything
     if (E_sorted.size() == 0) {
-      // If we haven't found segment with uppermost point yet don't do anything
-      if (a.second.point(0) == uppermost_vertex ||
-          a.second.point(1) == uppermost_vertex) {
+      if (a.second.source() == uppermost_vertex ||
+          a.second.target() == uppermost_vertex) {
         E_sorted.push_back(a.second);
       }
     } else {
@@ -68,18 +68,18 @@ vector<Segment> SortConvexHullSegments(const vector<Segment> &E) {
 }
 
 int main() {
+  // Generate set of segments
   vector<Segment> E{
-    Segment(Point(1, 0), Point(-1, 0)),
-    Segment(Point(1, 2), Point(1, 0)),
-    Segment(Point(-1, 2), Point(1, 2)),
-    Segment(Point(-1, 0), Point(-1, 2)),
+      Segment(Point(1, 0), Point(-1, 0)),
+      Segment(Point(1, 2), Point(1, 0)),
+      Segment(Point(-1, 2), Point(1, 2)),
+      Segment(Point(-1, 0), Point(-1, 2)),
   };
 
-  // Generate set of segments
-  // Provide them to sorting function
-  // Output returned
+  // Feed vector of segments to sorting algorithm
   vector<Segment> E_sorted = SortConvexHullSegments(E);
 
+  // Output original and sorted vectors of segments for compairson
   cout << "E:\n";
   for (Segment s : E)
     cout << s << "\n";
