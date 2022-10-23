@@ -10,7 +10,12 @@ include_directories(/usr/local/include/)
 
 find_package(CGAL)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME}
+    main.cpp
+    EventQueue.h
+    EventQueue.cpp
+    Status.h
+    Status.cpp)
 target_link_libraries(${PROJECT_NAME}
     CGAL::CGAL
     )
